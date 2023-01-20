@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,33 +35,70 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _countLocal = 0;
-  int _countVista = 0;
+  int _countVisita = 0;
+
+  int _setsLocal = 0;
+  int _setsVisita = 0;
+
   int _maxPoint = 25;
+
   String _nameLocal = "Local";
   String _nameVisita = "Visita";
+
+  bool _localWin = false;
+  bool _visitaWin = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/fondo.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
-        child: Row(
+        backgroundColor: Colors.transparent,
+        body: Stack(
           children: [
-            marcadorIzq(context),
-            settings(context),
-            marcadorDer(context),
+            
+            Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/fondo.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
+              child: Row(
+                children: [
+                  marcadorIzq(context),
+                  settings(context),
+                  marcadorDer(context),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.height)),
+              width: 90,
+              height: 85,
+              decoration:const  BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(100.0),
+                    topRight: Radius.circular(150.0),
+                    bottomLeft: Radius.circular(0.0),
+                    bottomRight: Radius.circular(0.0),
+                  ),
+                boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(
+                        5.0,
+                        5.0,
+                      ),
+                      blurRadius: 10.0,
+                      spreadRadius: 1.0,
+                    ),
+                ]
+              ),
+              child: Image.asset("assets/logoTrawen.png"),
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 
   Widget marcadorIzq(context) {
@@ -79,7 +117,10 @@ class _HomeState extends State<Home> {
               child: Center(
                 child: Text(
                   _nameLocal,
-                  style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: "YesevaOne"),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: "YesevaOne"),
                 ),
               ),
             ),
@@ -94,27 +135,89 @@ class _HomeState extends State<Home> {
                 ),
                 onTap: () {
                   setState(() {
-                    _countLocal++;
+                    if (!_localWin) {
+                      _countLocal++;
+
+                      if (_countLocal >= _maxPoint) {
+                        if ((_countLocal - _countVisita) >= 2) {
+                          _localWin = true;
+                        } else {
+                          _localWin = false;
+                        }
+                      } else {
+                        _localWin = false;
+                      }
+
+                      if (_countVisita >= _maxPoint) {
+                        if ((_countVisita - _countLocal) >= 2) {
+                          _visitaWin = true;
+                        } else {
+                          _visitaWin = false;
+                        }
+                      } else {
+                        _visitaWin = false;
+                      }
+                    }
                   });
                 },
                 onLongPress: () {
                   setState(() {
                     if (_countLocal != 0) {
                       _countLocal--;
+
+                      if (_countLocal >= _maxPoint) {
+                        if ((_countLocal - _countVisita) >= 2) {
+                          _localWin = true;
+                        } else {
+                          _localWin = false;
+                        }
+                      } else {
+                        _localWin = false;
+                      }
+
+                      if (_countVisita >= _maxPoint) {
+                        if ((_countVisita - _countLocal) >= 2) {
+                          _visitaWin = true;
+                        } else {
+                          _visitaWin = false;
+                        }
+                      } else {
+                        _visitaWin = false;
+                      }
                     }
                   });
                 },
               ),
             ),
-            const SizedBox(
-              height: 45,
-              child: Center(
-                child: Text(
-                  "Ganador",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            )
+            _localWin
+                ? SizedBox(
+                    height: 45,
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _setsLocal++;
+                            _countLocal = 0;
+                            _countVisita = 0;
+                            _localWin = false;
+                            _visitaWin = false;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromRGBO(4, 81, 5, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
+                          ),
+                        ),
+                        child: const Text(
+                          "Ganador",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(height: 45, child: null)
           ],
         ),
       ),
@@ -137,7 +240,10 @@ class _HomeState extends State<Home> {
               child: Center(
                 child: Text(
                   _nameVisita,
-                  style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: "YesevaOne"),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: "YesevaOne"),
                 ),
               ),
             ),
@@ -145,34 +251,95 @@ class _HomeState extends State<Home> {
               child: InkWell(
                 child: FittedBox(
                   child: Text(
-                    _countVista.toString(),
+                    _countVisita.toString(),
                     style: const TextStyle(
                         color: Colors.white, fontFamily: "YesevaOne"),
                   ),
                 ),
                 onTap: () {
                   setState(() {
-                    _countVista++;
+                    if (!_visitaWin) {
+                      _countVisita++;
+
+                      if (_countVisita >= _maxPoint) {
+                        if ((_countVisita - _countLocal) >= 2) {
+                          _visitaWin = true;
+                        } else {
+                          _visitaWin = false;
+                        }
+                      } else {
+                        _visitaWin = false;
+                      }
+
+                      if (_countLocal >= _maxPoint) {
+                        if ((_countLocal - _countVisita) >= 2) {
+                          _localWin = true;
+                        } else {
+                          _localWin = false;
+                        }
+                      } else {
+                        _localWin = false;
+                      }
+                    }
                   });
                 },
                 onLongPress: () {
                   setState(() {
-                    if (_countVista != 0) {
-                      _countVista--;
+                    if (_countVisita != 0) {
+                      _countVisita--;
+                      if (_countVisita >= _maxPoint) {
+                        if ((_countVisita - _countLocal) >= 2) {
+                          _visitaWin = true;
+                        } else {
+                          _visitaWin = false;
+                        }
+                      } else {
+                        _visitaWin = false;
+                      }
+
+                      if (_countLocal >= _maxPoint) {
+                        if ((_countLocal - _countVisita) >= 2) {
+                          _localWin = true;
+                        } else {
+                          _localWin = false;
+                        }
+                      } else {
+                        _localWin = false;
+                      }
                     }
                   });
                 },
               ),
             ),
-            const SizedBox(
-              height: 45,
-              child: Center(
-                child: Text(
-                  "Ganador",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            )
+            _visitaWin
+                ? SizedBox(
+                    height: 45,
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _setsVisita++;
+                            _countLocal = 0;
+                            _countVisita = 0;
+                            _localWin = false;
+                            _visitaWin = false;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromRGBO(4, 81, 5, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
+                          ),
+                        ),
+                        child: const Text(
+                          "Ganador",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(height: 45, child: null)
           ],
         ),
       ),
@@ -184,9 +351,236 @@ class _HomeState extends State<Home> {
       height: MediaQuery.of(context).size.height,
       width: 100.0,
       margin: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(10)),
-      child: const Text("Settings"),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+            width: 90,
+            child: const Text(""),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(3, 0, 3, 10),
+                    height: 20,
+                    width: 20,
+                    child: InkWell(
+                      child: SvgPicture.asset('assets/add-circle-outline.svg',
+                          color: const Color.fromRGBO(45, 211, 111, 1),
+                          semanticsLabel: 'A red up arrow'),
+                      onTap: () {
+                        setState(() {
+                          if (!_localWin) {
+                            _countLocal++;
+
+                            if (_countLocal >= _maxPoint) {
+                              if ((_countLocal - _countVisita) >= 2) {
+                                _localWin = true;
+                              } else {
+                                _localWin = false;
+                              }
+                            } else {
+                              _localWin = false;
+                            }
+
+                            if (_countVisita >= _maxPoint) {
+                              if ((_countVisita - _countLocal) >= 2) {
+                                _visitaWin = true;
+                              } else {
+                                _visitaWin = false;
+                              }
+                            } else {
+                              _visitaWin = false;
+                            }
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(3, 10, 3, 10),
+                    height: 20,
+                    width: 20,
+                    child: InkWell(
+                      child: SvgPicture.asset(
+                          'assets/remove-circle-outline.svg',
+                          color: const Color.fromRGBO(45, 211, 111, 1),
+                          semanticsLabel: 'A red up arrow'),
+                      onTap: () {
+                        setState(() {
+                          if (_countLocal != 0) {
+                            _countLocal--;
+
+                            if (_countLocal >= _maxPoint) {
+                              if ((_countLocal - _countVisita) >= 2) {
+                                _localWin = true;
+                              } else {
+                                _localWin = false;
+                              }
+                            } else {
+                              _localWin = false;
+                            }
+
+                            if (_countVisita >= _maxPoint) {
+                              if ((_countVisita - _countLocal) >= 2) {
+                                _visitaWin = true;
+                              } else {
+                                _visitaWin = false;
+                              }
+                            } else {
+                              _visitaWin = false;
+                            }
+                          }
+                        });
+                      },
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(6, 5, 6, 20),
+                    height: 20,
+                    width: 20,
+                    child: InkWell(
+                      child: SvgPicture.asset('assets/settings-outline.svg',
+                          color: Colors.white,
+                          semanticsLabel: 'A red up arrow'),
+                      onTap: () {},
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(6, 20, 6, 20),
+                    height: 20,
+                    width: 20,
+                    child: InkWell(
+                      child: SvgPicture.asset(
+                          'assets/refresh-circle-outline.svg',
+                          color: Colors.white,
+                          semanticsLabel: 'A red up arrow'),
+                      onTap: () {
+                        setState(() {
+                          _setsVisita = 0;
+                          _setsLocal = 0;
+                          _countLocal = 0;
+                          _countVisita = 0;
+                          _localWin = false;
+                          _visitaWin = false;
+                          _maxPoint = 25;
+                        });
+                      },
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(3, 0, 3, 10),
+                    height: 20,
+                    width: 20,
+                    child: InkWell(
+                      child: SvgPicture.asset('assets/add-circle-outline.svg',
+                          color: const Color.fromRGBO(45, 211, 111, 1),
+                          semanticsLabel: 'A red up arrow'),
+                      onTap: () {
+                        setState(() {
+                          if (!_visitaWin) {
+                            _countVisita++;
+
+                            if (_countVisita >= _maxPoint) {
+                              if ((_countVisita - _countLocal) >= 2) {
+                                _visitaWin = true;
+                              } else {
+                                _visitaWin = false;
+                              }
+                            } else {
+                              _visitaWin = false;
+                            }
+
+                            if (_countLocal >= _maxPoint) {
+                              if ((_countLocal - _countVisita) >= 2) {
+                                _localWin = true;
+                              } else {
+                                _localWin = false;
+                              }
+                            } else {
+                              _localWin = false;
+                            }
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(3, 10, 3, 10),
+                    height: 20,
+                    width: 20,
+                    child: InkWell(
+                      child: SvgPicture.asset(
+                          'assets/remove-circle-outline.svg',
+                          color: const Color.fromRGBO(45, 211, 111, 1),
+                          semanticsLabel: 'A red up arrow'),
+                      onTap: () {
+                        setState(() {
+                          if (_countVisita != 0) {
+                            _countVisita--;
+                            if (_countVisita >= _maxPoint) {
+                              if ((_countVisita - _countLocal) >= 2) {
+                                _visitaWin = true;
+                              } else {
+                                _visitaWin = false;
+                              }
+                            } else {
+                              _visitaWin = false;
+                            }
+
+                            if (_countLocal >= _maxPoint) {
+                              if ((_countLocal - _countVisita) >= 2) {
+                                _localWin = true;
+                              } else {
+                                _localWin = false;
+                              }
+                            } else {
+                              _localWin = false;
+                            }
+                          }
+                        });
+                      },
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+          Expanded(
+            child: FittedBox(
+              child: Text(
+                "$_setsLocal - $_setsVisita",
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: "YesevaOne"),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 25, 0, 20),
+            child: const Text(
+              "Resultados",
+              style: TextStyle(color: Colors.white, fontFamily: "YesevaOne"),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
