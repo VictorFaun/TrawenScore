@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+//import 'package:trawenscore/settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,54 +49,41 @@ class _HomeState extends State<Home> {
   bool _localWin = false;
   bool _visitaWin = false;
 
+  bool _differenceTwo = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.transparent,
-        body: Stack(
+        body: ListView(
           children: [
-            
-            Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/fondo.jpg"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
-              child: Row(
-                children: [
-                  marcadorIzq(context),
-                  settings(context),
-                  marcadorDer(context),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.height)),
-              width: 90,
-              height: 85,
-              decoration:const  BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(100.0),
-                    topRight: Radius.circular(150.0),
-                    bottomLeft: Radius.circular(0.0),
-                    bottomRight: Radius.circular(0.0),
-                  ),
-                boxShadow: [
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(
-                        5.0,
-                        5.0,
-                      ),
-                      blurRadius: 10.0,
-                      spreadRadius: 1.0,
+            Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/fondo.jpg"),
+                      fit: BoxFit.cover,
                     ),
-                ]
-              ),
-              child: Image.asset("assets/logoTrawen.png"),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
+                  child: Row(
+                    children: [
+                      marcadorIzq(context),
+                      settings(context),
+                      marcadorDer(context),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: (MediaQuery.of(context).size.height)),
+                  width: 90,
+                  height: 85,
+                  child: Image.asset("assets/logoTrawenBorde.png"),
+                ),
+              ],
             ),
           ],
         ));
@@ -139,7 +127,8 @@ class _HomeState extends State<Home> {
                       _countLocal++;
 
                       if (_countLocal >= _maxPoint) {
-                        if ((_countLocal - _countVisita) >= 2) {
+                        if ((_countLocal - _countVisita) >= 2 ||
+                            !_differenceTwo) {
                           _localWin = true;
                         } else {
                           _localWin = false;
@@ -149,7 +138,8 @@ class _HomeState extends State<Home> {
                       }
 
                       if (_countVisita >= _maxPoint) {
-                        if ((_countVisita - _countLocal) >= 2) {
+                        if ((_countVisita - _countLocal) >= 2 ||
+                            !_differenceTwo) {
                           _visitaWin = true;
                         } else {
                           _visitaWin = false;
@@ -166,7 +156,8 @@ class _HomeState extends State<Home> {
                       _countLocal--;
 
                       if (_countLocal >= _maxPoint) {
-                        if ((_countLocal - _countVisita) >= 2) {
+                        if ((_countLocal - _countVisita) >= 2 ||
+                            !_differenceTwo) {
                           _localWin = true;
                         } else {
                           _localWin = false;
@@ -176,7 +167,8 @@ class _HomeState extends State<Home> {
                       }
 
                       if (_countVisita >= _maxPoint) {
-                        if ((_countVisita - _countLocal) >= 2) {
+                        if ((_countVisita - _countLocal) >= 2 ||
+                            !_differenceTwo) {
                           _visitaWin = true;
                         } else {
                           _visitaWin = false;
@@ -262,7 +254,8 @@ class _HomeState extends State<Home> {
                       _countVisita++;
 
                       if (_countVisita >= _maxPoint) {
-                        if ((_countVisita - _countLocal) >= 2) {
+                        if ((_countVisita - _countLocal) >= 2 ||
+                            !_differenceTwo) {
                           _visitaWin = true;
                         } else {
                           _visitaWin = false;
@@ -272,7 +265,8 @@ class _HomeState extends State<Home> {
                       }
 
                       if (_countLocal >= _maxPoint) {
-                        if ((_countLocal - _countVisita) >= 2) {
+                        if ((_countLocal - _countVisita) >= 2 ||
+                            !_differenceTwo) {
                           _localWin = true;
                         } else {
                           _localWin = false;
@@ -288,7 +282,8 @@ class _HomeState extends State<Home> {
                     if (_countVisita != 0) {
                       _countVisita--;
                       if (_countVisita >= _maxPoint) {
-                        if ((_countVisita - _countLocal) >= 2) {
+                        if ((_countVisita - _countLocal) >= 2 ||
+                            !_differenceTwo) {
                           _visitaWin = true;
                         } else {
                           _visitaWin = false;
@@ -298,7 +293,8 @@ class _HomeState extends State<Home> {
                       }
 
                       if (_countLocal >= _maxPoint) {
-                        if ((_countLocal - _countVisita) >= 2) {
+                        if ((_countLocal - _countVisita) >= 2 ||
+                            !_differenceTwo) {
                           _localWin = true;
                         } else {
                           _localWin = false;
@@ -383,7 +379,8 @@ class _HomeState extends State<Home> {
                             _countLocal++;
 
                             if (_countLocal >= _maxPoint) {
-                              if ((_countLocal - _countVisita) >= 2) {
+                              if ((_countLocal - _countVisita) >= 2 ||
+                                  !_differenceTwo) {
                                 _localWin = true;
                               } else {
                                 _localWin = false;
@@ -393,7 +390,8 @@ class _HomeState extends State<Home> {
                             }
 
                             if (_countVisita >= _maxPoint) {
-                              if ((_countVisita - _countLocal) >= 2) {
+                              if ((_countVisita - _countLocal) >= 2 ||
+                                  !_differenceTwo) {
                                 _visitaWin = true;
                               } else {
                                 _visitaWin = false;
@@ -421,7 +419,8 @@ class _HomeState extends State<Home> {
                             _countLocal--;
 
                             if (_countLocal >= _maxPoint) {
-                              if ((_countLocal - _countVisita) >= 2) {
+                              if ((_countLocal - _countVisita) >= 2 ||
+                                  !_differenceTwo) {
                                 _localWin = true;
                               } else {
                                 _localWin = false;
@@ -431,7 +430,8 @@ class _HomeState extends State<Home> {
                             }
 
                             if (_countVisita >= _maxPoint) {
-                              if ((_countVisita - _countLocal) >= 2) {
+                              if ((_countVisita - _countLocal) >= 2 ||
+                                  !_differenceTwo) {
                                 _visitaWin = true;
                               } else {
                                 _visitaWin = false;
@@ -456,7 +456,17 @@ class _HomeState extends State<Home> {
                       child: SvgPicture.asset('assets/settings-outline.svg',
                           color: Colors.white,
                           semanticsLabel: 'A red up arrow'),
-                      onTap: () {},
+                      onTap: () {
+                        //showModal();
+                        //Navigator.push(
+                        //  context,
+                        //  MaterialPageRoute(
+                        //    builder: (context) => const Settings(),
+
+                        //  ),
+
+                        //);
+                      },
                     ),
                   ),
                   Container(
@@ -499,7 +509,8 @@ class _HomeState extends State<Home> {
                             _countVisita++;
 
                             if (_countVisita >= _maxPoint) {
-                              if ((_countVisita - _countLocal) >= 2) {
+                              if ((_countVisita - _countLocal) >= 2 ||
+                                  !_differenceTwo) {
                                 _visitaWin = true;
                               } else {
                                 _visitaWin = false;
@@ -509,7 +520,8 @@ class _HomeState extends State<Home> {
                             }
 
                             if (_countLocal >= _maxPoint) {
-                              if ((_countLocal - _countVisita) >= 2) {
+                              if ((_countLocal - _countVisita) >= 2 ||
+                                  !_differenceTwo) {
                                 _localWin = true;
                               } else {
                                 _localWin = false;
@@ -536,7 +548,8 @@ class _HomeState extends State<Home> {
                           if (_countVisita != 0) {
                             _countVisita--;
                             if (_countVisita >= _maxPoint) {
-                              if ((_countVisita - _countLocal) >= 2) {
+                              if ((_countVisita - _countLocal) >= 2 ||
+                                  !_differenceTwo) {
                                 _visitaWin = true;
                               } else {
                                 _visitaWin = false;
@@ -546,7 +559,8 @@ class _HomeState extends State<Home> {
                             }
 
                             if (_countLocal >= _maxPoint) {
-                              if ((_countLocal - _countVisita) >= 2) {
+                              if ((_countLocal - _countVisita) >= 2 ||
+                                  !_differenceTwo) {
                                 _localWin = true;
                               } else {
                                 _localWin = false;
@@ -575,12 +589,69 @@ class _HomeState extends State<Home> {
           Container(
             margin: const EdgeInsets.fromLTRB(0, 25, 0, 20),
             child: const Text(
-              "Resultados",
+              "",
               style: TextStyle(color: Colors.white, fontFamily: "YesevaOne"),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  void showModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return (ListView(
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+              child: CheckboxListTile(
+                title: const Text('Diferencia de 2 puntos'),
+                value: true,
+                onChanged: (bool? value) {},
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 5, 10, 10),
+              child: const Text("Nro maximo de puntos: "),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+              child: const TextField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 5, 10, 10),
+              child: const Text("Nombre equipo local: "),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 5, 10, 10),
+              child: const Text("Nombre equipo visita: "),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ],
+        ));
+      },
     );
   }
 }
