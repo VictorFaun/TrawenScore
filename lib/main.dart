@@ -203,7 +203,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         child: const Text(
-                          "Ganador",
+                          "Ganador!",
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
@@ -329,7 +329,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         child: const Text(
-                          "Ganador",
+                          "Ganador!",
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
