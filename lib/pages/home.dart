@@ -469,7 +469,7 @@ class _HomeState extends State<Home> {
                         color: Colors.white,
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, "/config");
+                        Navigator.pushNamed(context, "/config", arguments: {"nameLocal": _nameLocal, "nameVisita":_nameVisita, "maxPoint": _maxPoint.toString(), "differenceTwo":_differenceTwo});
                       },
                     ),
                   ),

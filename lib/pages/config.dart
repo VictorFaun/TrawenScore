@@ -29,6 +29,20 @@ class _ConfigState extends State<Config> {
   @override
   Widget build(BuildContext context) {
 
+    
+    Object? parametros = ModalRoute.of(context)?.settings.arguments;
+    
+    if(parametros != null){
+      (parametros as Map);
+      setState(() {
+        _nameLocal.text = (parametros)['nameLocal'];
+        _nameVisita.text = (parametros)['nameVisita'];
+        _maxPoint.text = (parametros)['maxPoint'];
+        _differenceTwo = (parametros)['differenceTwo'];
+        
+      });
+    }
+
     return WillPopScope(
         onWillPop: () => _onWillPop(),
         child: Scaffold(
