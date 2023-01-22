@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pro.thedifference.trawenscore">
    <application
-        android:label="trawenscore"
+        android:label="Trawen Score"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
