@@ -66,7 +66,7 @@ class _ConfigState extends State<Config> {
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(30, 5, 10, 10),
-                child: const Text("Nro maximo de puntos: "),
+                child: const Text("Numero maximo de puntos: "),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
