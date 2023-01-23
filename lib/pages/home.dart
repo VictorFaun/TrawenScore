@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final Uri _urlInsta = Uri.parse("https://instagram.com/trawen_nuble?igshid=YmMyMTA2M2Y=");
+final Uri _urlInsta =
+    Uri.parse("https://instagram.com/trawen_nuble?igshid=YmMyMTA2M2Y=");
 final Uri _urlFace = Uri.parse("https://www.facebook.com/clubTrawen");
 
 class Home extends StatefulWidget {
@@ -30,37 +31,43 @@ class _HomeState extends State<Home> {
 
   bool _differenceTwo = true;
 
+  bool _isReadData = false;
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [],
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    
     Object? parametros = ModalRoute.of(context)?.settings.arguments;
-    
-    if(parametros != null){
-      (parametros as Map);
-      setState(() {
-        if((parametros)['nameLocal'] != ""){
-        _nameLocal = (parametros)['nameLocal'];
-        }
-        if((parametros)['nameVisita'] != ""){
-        _nameVisita = (parametros)['nameVisita'];
-        }
-        var aux = int.tryParse((parametros)['maxPoint']);
-        if(aux != null){
-          _maxPoint = aux;
-        }
-        _differenceTwo = (parametros)['differenceTwo'];
-      });
+
+    if (!_isReadData) {
+      if (parametros != null) {
+        (parametros as Map);
+        setState(() {
+          if ((parametros)['nameLocal'] != "") {
+            _nameLocal = (parametros)['nameLocal'];
+          }
+          if ((parametros)['nameVisita'] != "") {
+            _nameVisita = (parametros)['nameVisita'];
+          }
+          var aux = int.tryParse((parametros)['maxPoint']);
+          if (aux != null) {
+            _maxPoint = aux;
+          }
+          _differenceTwo = (parametros)['differenceTwo'];
+          _isReadData = true;
+        });
+      }
     }
 
     return Scaffold(
@@ -133,8 +140,9 @@ class _HomeState extends State<Home> {
                 ),
                 onTap: () {
                   setState(() {
-                    if (!_localWin) {
-                      _countLocal++;
+                    if (!_localWin && !(_visitaWin && _countLocal == _maxPoint-1)) {
+                      
+                        _countLocal++;
 
                       if (_countLocal >= _maxPoint) {
                         if ((_countLocal - _countVisita) >= 2 ||
@@ -260,8 +268,8 @@ class _HomeState extends State<Home> {
                 ),
                 onTap: () {
                   setState(() {
-                    if (!_visitaWin) {
-                      _countVisita++;
+                    if (!_visitaWin && !(_localWin && _countVisita == _maxPoint-1)) {
+                        _countVisita++;
 
                       if (_countVisita >= _maxPoint) {
                         if ((_countVisita - _countLocal) >= 2 ||
@@ -386,8 +394,8 @@ class _HomeState extends State<Home> {
                       ),
                       onTap: () {
                         setState(() {
-                          if (!_localWin) {
-                            _countLocal++;
+                          if (!_localWin && !(_visitaWin && _countLocal == _maxPoint-1)) {
+                              _countLocal++;
 
                             if (_countLocal >= _maxPoint) {
                               if ((_countLocal - _countVisita) >= 2 ||
@@ -469,7 +477,12 @@ class _HomeState extends State<Home> {
                         color: Colors.white,
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, "/config", arguments: {"nameLocal": _nameLocal, "nameVisita":_nameVisita, "maxPoint": _maxPoint.toString(), "differenceTwo":_differenceTwo});
+                        Navigator.pushNamed(context, "/config", arguments: {
+                          "nameLocal": _nameLocal,
+                          "nameVisita": _nameVisita,
+                          "maxPoint": _maxPoint.toString(),
+                          "differenceTwo": _differenceTwo
+                        });
                       },
                     ),
                   ),
@@ -490,7 +503,6 @@ class _HomeState extends State<Home> {
                           _countVisita = 0;
                           _localWin = false;
                           _visitaWin = false;
-                          _maxPoint = 25;
                         });
                       },
                     ),
@@ -510,8 +522,8 @@ class _HomeState extends State<Home> {
                       ),
                       onTap: () {
                         setState(() {
-                          if (!_visitaWin) {
-                            _countVisita++;
+                          if (!_visitaWin  && !(_localWin && _countVisita == _maxPoint-1)) {
+                              _countVisita++;
 
                             if (_countVisita >= _maxPoint) {
                               if ((_countVisita - _countLocal) >= 2 ||
@@ -628,6 +640,7 @@ class _HomeState extends State<Home> {
       throw Exception('Error instagram');
     }
   }
+
   void _launchUrlFace() async {
     if (!await launchUrl(_urlFace)) {
       throw Exception('Error facebook');

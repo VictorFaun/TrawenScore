@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:trawenscore/routes.dart';
 import 'package:trawenscore/theme.dart';
 //import 'package:trawenscore/settings.dart';
@@ -13,10 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [],
-    );
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: "/home",

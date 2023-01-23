@@ -10,11 +10,12 @@ class Config extends StatefulWidget {
 }
 
 class _ConfigState extends State<Config> {
-
   final _nameLocal = TextEditingController(text: "Local");
   final _nameVisita = TextEditingController(text: "Visita");
   final _maxPoint = TextEditingController(text: "25");
   bool _differenceTwo = true;
+
+  bool _isReadData = false;
 
   @override
   void initState() {
@@ -23,24 +24,26 @@ class _ConfigState extends State<Config> {
       DeviceOrientation.portraitDown,
     ]);
 
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    
     Object? parametros = ModalRoute.of(context)?.settings.arguments;
-    
-    if(parametros != null){
-      (parametros as Map);
-      setState(() {
-        _nameLocal.text = (parametros)['nameLocal'];
-        _nameVisita.text = (parametros)['nameVisita'];
-        _maxPoint.text = (parametros)['maxPoint'];
-        _differenceTwo = (parametros)['differenceTwo'];
-        
-      });
+
+    if (!_isReadData) {
+      if (parametros != null) {
+        (parametros as Map);
+        setState(() {
+          _nameLocal.text = (parametros)['nameLocal'];
+          _nameVisita.text = (parametros)['nameVisita'];
+          _maxPoint.text = (parametros)['maxPoint'];
+          _differenceTwo = (parametros)['differenceTwo'];
+          _isReadData = true;
+        });
+      }
     }
 
     return WillPopScope(
@@ -129,8 +132,12 @@ class _ConfigState extends State<Config> {
   }
 
   _onSave() {
-    Navigator.pushNamed(context, "/home", arguments: {"nameLocal": _nameLocal.text, "nameVisita":_nameVisita.text, "maxPoint": _maxPoint.text, "differenceTwo":_differenceTwo});
-    
+    Navigator.pushNamed(context, "/home", arguments: {
+      "nameLocal": _nameLocal.text,
+      "nameVisita": _nameVisita.text,
+      "maxPoint": _maxPoint.text,
+      "differenceTwo": _differenceTwo
+    });
   }
 
   _onWillPop() {
