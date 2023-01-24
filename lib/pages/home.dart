@@ -119,14 +119,19 @@ class _HomeState extends State<Home> {
           children: [
             SizedBox(
               height: 45,
-              child: Center(
-                child: Text(
-                  _nameLocal,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: "YesevaOne"),
+              child: TextFormField(
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: "YesevaOne", fontSize: 25),
+                initialValue: _nameLocal,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _nameLocal = value;
+                  });
+                },
               ),
             ),
             Expanded(
@@ -140,9 +145,9 @@ class _HomeState extends State<Home> {
                 ),
                 onTap: () {
                   setState(() {
-                    if (!_localWin && !(_visitaWin && _countLocal == _maxPoint-1)) {
-                      
-                        _countLocal++;
+                    if (!_localWin &&
+                        !(_visitaWin && _countLocal == _maxPoint - 1)) {
+                      _countLocal++;
 
                       if (_countLocal >= _maxPoint) {
                         if ((_countLocal - _countVisita) >= 2 ||
@@ -247,14 +252,19 @@ class _HomeState extends State<Home> {
           children: [
             SizedBox(
               height: 45,
-              child: Center(
-                child: Text(
-                  _nameVisita,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: "YesevaOne"),
+              child: TextFormField(
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: "YesevaOne", fontSize: 25),
+                initialValue: _nameVisita,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _nameVisita = value;
+                  });
+                },
               ),
             ),
             Expanded(
@@ -268,8 +278,9 @@ class _HomeState extends State<Home> {
                 ),
                 onTap: () {
                   setState(() {
-                    if (!_visitaWin && !(_localWin && _countVisita == _maxPoint-1)) {
-                        _countVisita++;
+                    if (!_visitaWin &&
+                        !(_localWin && _countVisita == _maxPoint - 1)) {
+                      _countVisita++;
 
                       if (_countVisita >= _maxPoint) {
                         if ((_countVisita - _countLocal) >= 2 ||
@@ -365,7 +376,7 @@ class _HomeState extends State<Home> {
       height: MediaQuery.of(context).size.height,
       width: 100.0,
       margin: const EdgeInsets.all(5.0),
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(10)),
       child: Column(
@@ -373,7 +384,7 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+            margin: const EdgeInsets.fromLTRB(0, 25, 0, 0),
             width: 90,
             child: const Text(""),
           ),
@@ -384,9 +395,9 @@ class _HomeState extends State<Home> {
               Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    height: 25,
-                    width: 25,
+                    margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                    height: 30,
+                    width: 30,
                     child: InkWell(
                       child: SvgPicture.asset(
                         'assets/add-circle-outline.svg',
@@ -394,8 +405,9 @@ class _HomeState extends State<Home> {
                       ),
                       onTap: () {
                         setState(() {
-                          if (!_localWin && !(_visitaWin && _countLocal == _maxPoint-1)) {
-                              _countLocal++;
+                          if (!_localWin &&
+                              !(_visitaWin && _countLocal == _maxPoint - 1)) {
+                            _countLocal++;
 
                             if (_countLocal >= _maxPoint) {
                               if ((_countLocal - _countVisita) >= 2 ||
@@ -425,8 +437,8 @@ class _HomeState extends State<Home> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    height: 25,
-                    width: 25,
+                    height: 30,
+                    width: 30,
                     child: InkWell(
                       child: SvgPicture.asset(
                         'assets/remove-circle-outline.svg',
@@ -468,28 +480,9 @@ class _HomeState extends State<Home> {
               Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.fromLTRB(3, 5, 3, 20),
-                    height: 25,
-                    width: 25,
-                    child: InkWell(
-                      child: SvgPicture.asset(
-                        'assets/settings-outline.svg',
-                        color: Colors.white,
-                      ),
-                      onTap: () {
-                        Navigator.pushNamed(context, "/config", arguments: {
-                          "nameLocal": _nameLocal,
-                          "nameVisita": _nameVisita,
-                          "maxPoint": _maxPoint.toString(),
-                          "differenceTwo": _differenceTwo
-                        });
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(3, 20, 3, 20),
-                    height: 25,
-                    width: 25,
+                    margin: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+                    height: 30,
+                    width: 30,
                     child: InkWell(
                       child: SvgPicture.asset(
                         'assets/refresh-circle-outline.svg',
@@ -512,9 +505,9 @@ class _HomeState extends State<Home> {
               Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    height: 25,
-                    width: 25,
+                    margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                    height: 30,
+                    width: 30,
                     child: InkWell(
                       child: SvgPicture.asset(
                         'assets/add-circle-outline.svg',
@@ -522,8 +515,9 @@ class _HomeState extends State<Home> {
                       ),
                       onTap: () {
                         setState(() {
-                          if (!_visitaWin  && !(_localWin && _countVisita == _maxPoint-1)) {
-                              _countVisita++;
+                          if (!_visitaWin &&
+                              !(_localWin && _countVisita == _maxPoint - 1)) {
+                            _countVisita++;
 
                             if (_countVisita >= _maxPoint) {
                               if ((_countVisita - _countLocal) >= 2 ||
@@ -553,8 +547,8 @@ class _HomeState extends State<Home> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    height: 25,
-                    width: 25,
+                    height: 30,
+                    width: 30,
                     child: InkWell(
                       child: SvgPicture.asset(
                         'assets/remove-circle-outline.svg',
@@ -594,6 +588,130 @@ class _HomeState extends State<Home> {
               )
             ],
           ),
+          Container(
+            height: 25,
+            decoration: BoxDecoration(
+                border: const Border(
+                  top: BorderSide(width: 1, color: Colors.grey),
+                  bottom: BorderSide(width: 1, color: Colors.grey),
+                  left: BorderSide(width: 1, color: Colors.grey),
+                  right: BorderSide(width: 1, color: Colors.grey),
+                ),
+                borderRadius: BorderRadius.circular(10)),
+            child: TextFormField(
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  color: Colors.white, fontFamily: "YesevaOne", fontSize: 15),
+              initialValue: _maxPoint.toString(),
+              keyboardType: TextInputType.number,
+              enableInteractiveSelection: false,
+              decoration: const InputDecoration(
+                label: Text("Max Point"),
+                floatingLabelAlignment: FloatingLabelAlignment.center,
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                setState(() {
+                  if (value == "") {
+                    _maxPoint = 0;
+                  } else {
+                    var number = int.tryParse(value);
+                    _maxPoint = number ?? _maxPoint;
+                  }
+
+                  if (_countLocal >= _maxPoint) {
+                    if ((_countLocal - _countVisita) >= 2 || !_differenceTwo) {
+                      _localWin = true;
+                    } else {
+                      _localWin = false;
+                    }
+                  } else {
+                    _localWin = false;
+                  }
+
+                  if (_countVisita >= _maxPoint) {
+                    if ((_countVisita - _countLocal) >= 2 || !_differenceTwo) {
+                      _visitaWin = true;
+                    } else {
+                      _visitaWin = false;
+                    }
+                  } else {
+                    _visitaWin = false;
+                  }
+                });
+              },
+            ),
+          ),
+          Container(
+              height: 25,
+              margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+              decoration: BoxDecoration(
+                  border: const Border(
+                    top: BorderSide(width: 1, color: Colors.grey),
+                    bottom: BorderSide(width: 1, color: Colors.grey),
+                    left: BorderSide(width: 1, color: Colors.grey),
+                    right: BorderSide(width: 1, color: Colors.grey),
+                  ),
+                  borderRadius: BorderRadius.circular(10)),
+              child: InkWell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: _differenceTwo
+                          ? const Icon(
+                              Icons.check_box,
+                              color: Colors.green,
+                              size: 15,
+                            )
+                          : const Icon(
+                              Icons.check_box_outline_blank,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                    ),
+                    const Text(
+                      "Dif 2",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontFamily: "YesevaOne"),
+                    )
+                  ],
+                ),
+                onTap: () {
+                  setState(() {
+                    _differenceTwo = !_differenceTwo;
+
+                    if (_countLocal >= _maxPoint) {
+                      if ((_countLocal - _countVisita) >= 2 ||
+                          !_differenceTwo) {
+                        _localWin = true;
+                      } else {
+                        _localWin = false;
+                      }
+                    } else {
+                      _localWin = false;
+                    }
+
+                    if (_countVisita >= _maxPoint) {
+                      if ((_countVisita - _countLocal) >= 2 ||
+                          !_differenceTwo) {
+                        _visitaWin = true;
+                      } else {
+                        _visitaWin = false;
+                      }
+                    } else {
+                      _visitaWin = false;
+                    }
+                  });
+                },
+              )),
           Expanded(
             child: FittedBox(
               child: Text(
@@ -604,7 +722,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 30, 0, 15),
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
