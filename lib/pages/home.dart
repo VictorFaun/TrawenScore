@@ -662,7 +662,7 @@ class _HomeState extends State<Home> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: _differenceTwo
                           ? const Icon(
                               Icons.check_box,
