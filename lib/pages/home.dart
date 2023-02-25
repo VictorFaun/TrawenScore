@@ -7,6 +7,9 @@ final Uri _urlInsta =
     Uri.parse("https://instagram.com/trawen_nuble?igshid=YmMyMTA2M2Y=");
 final Uri _urlFace = Uri.parse("https://www.facebook.com/clubTrawen");
 
+final Uri _urlInstaApp = Uri.parse("instagram://user?username=trawen_nuble");
+final Uri _urlFaceApp = Uri.parse("fb://profile/100048818476300");
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -84,7 +87,7 @@ class _HomeState extends State<Home> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 30.0),
                   child: Row(
                     children: [
                       marcadorIzq(context),
@@ -93,12 +96,12 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: (MediaQuery.of(context).size.height)),
-                  width: 90,
-                  height: 85,
-                  child: Image.asset("assets/logoTrawenBorde.png"),
+                Center(
+                  child: SizedBox(
+                    width: 75,
+                    height: 75,
+                    child: Image.asset("assets/logoTrawenBorde.png"),
+                  ),
                 )
               ],
             ),
@@ -374,7 +377,7 @@ class _HomeState extends State<Home> {
   Widget settings(context) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      width: 100.0,
+      width: 110.0,
       margin: const EdgeInsets.all(5.0),
       padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
@@ -384,7 +387,7 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             width: 90,
             child: const Text(""),
           ),
@@ -589,62 +592,98 @@ class _HomeState extends State<Home> {
             ],
           ),
           Container(
-            height: 25,
-            decoration: BoxDecoration(
-                border: const Border(
-                  top: BorderSide(width: 1, color: Colors.grey),
-                  bottom: BorderSide(width: 1, color: Colors.grey),
-                  left: BorderSide(width: 1, color: Colors.grey),
-                  right: BorderSide(width: 1, color: Colors.grey),
-                ),
-                borderRadius: BorderRadius.circular(10)),
-            child: TextFormField(
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white, fontFamily: "YesevaOne", fontSize: 15),
-              initialValue: _maxPoint.toString(),
-              keyboardType: TextInputType.number,
-              enableInteractiveSelection: false,
-              decoration: const InputDecoration(
-                label: Text("Max Point"),
-                floatingLabelAlignment: FloatingLabelAlignment.center,
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                ),
-                border: InputBorder.none,
-              ),
-              onChanged: (value) {
-                setState(() {
-                  if (value == "") {
-                    _maxPoint = 0;
-                  } else {
-                    var number = int.tryParse(value);
-                    _maxPoint = number ?? _maxPoint;
-                  }
+              height: 25,
+              padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+              decoration: BoxDecoration(
+                  border: const Border(
+                    top: BorderSide(width: 1, color: Colors.grey),
+                    bottom: BorderSide(width: 1, color: Colors.grey),
+                    left: BorderSide(width: 1, color: Colors.grey),
+                    right: BorderSide(width: 1, color: Colors.grey),
+                  ),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                children: [
+                  DropdownButton<int>(
+                    borderRadius: BorderRadius.circular(8),
+                    value: _maxPoint,
+                    dropdownColor: const Color.fromRGBO(0, 0, 0, 0.9),
+                    underline: Container(
+                      height: 0,
+                    ),
+                    menuMaxHeight: 200,
+                    style: const TextStyle(
+                        color: Colors.white, fontFamily: "YesevaOne"),
+                    onChanged: (int? newValue) {
+                      setState(() {
+                        setState(() {
+                          _maxPoint = newValue!;
+                          if (_countLocal >= _maxPoint) {
+                            if ((_countLocal - _countVisita) >= 2 ||
+                                !_differenceTwo) {
+                              _localWin = true;
+                            } else {
+                              _localWin = false;
+                            }
+                          } else {
+                            _localWin = false;
+                          }
 
-                  if (_countLocal >= _maxPoint) {
-                    if ((_countLocal - _countVisita) >= 2 || !_differenceTwo) {
-                      _localWin = true;
-                    } else {
-                      _localWin = false;
-                    }
-                  } else {
-                    _localWin = false;
-                  }
-
-                  if (_countVisita >= _maxPoint) {
-                    if ((_countVisita - _countLocal) >= 2 || !_differenceTwo) {
-                      _visitaWin = true;
-                    } else {
-                      _visitaWin = false;
-                    }
-                  } else {
-                    _visitaWin = false;
-                  }
-                });
-              },
-            ),
-          ),
+                          if (_countVisita >= _maxPoint) {
+                            if ((_countVisita - _countLocal) >= 2 ||
+                                !_differenceTwo) {
+                              _visitaWin = true;
+                            } else {
+                              _visitaWin = false;
+                            }
+                          } else {
+                            _visitaWin = false;
+                          }
+                        });
+                      });
+                    },
+                    items: <int>[
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9,
+                      10,
+                      11,
+                      12,
+                      13,
+                      14,
+                      15,
+                      16,
+                      17,
+                      18,
+                      19,
+                      20,
+                      21,
+                      22,
+                      23,
+                      24,
+                      25
+                    ].map<DropdownMenuItem<int>>((int value) {
+                      return DropdownMenuItem<int>(
+                        value: value,
+                        child: Text(value.toString()),
+                      );
+                    }).toList(),
+                  ),
+                  const Text(
+                    "Puntos",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontFamily: "YesevaOne"),
+                  )
+                ],
+              )),
           Container(
               height: 25,
               margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -676,10 +715,10 @@ class _HomeState extends State<Home> {
                             ),
                     ),
                     const Text(
-                      "Dif 2",
+                      "Diferencia",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 11,
                           fontFamily: "YesevaOne"),
                     )
                   ],
@@ -754,14 +793,26 @@ class _HomeState extends State<Home> {
   }
 
   void _launchUrlInsta() async {
-    if (!await launchUrl(_urlInsta)) {
-      throw Exception('Error instagram');
+    try {
+      await launchUrl(_urlInstaApp);
+    } catch (e) {
+      try {
+        await launchUrl(_urlInsta);
+      } catch (e) {
+        throw Exception('Error instagram');
+      }
     }
   }
 
   void _launchUrlFace() async {
-    if (!await launchUrl(_urlFace)) {
-      throw Exception('Error facebook');
+    try {
+      await launchUrl(_urlFaceApp);
+    } catch (e) {
+      try {
+        await launchUrl(_urlFace);
+      } catch (e) {
+        throw Exception('Error facebook');
+      }
     }
   }
 }
